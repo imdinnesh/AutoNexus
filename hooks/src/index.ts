@@ -1,17 +1,20 @@
-import express from 'express';
-const app= express();
+import express from "express";
+const app = express();
 
-const PORT=process.env.PORT || 8000;
+const PORT = process.env.PORT || 8000;
 
-app.get('/',(req,res)=>{
-    res.json({message:'Hello World'})
-})
+// test route
+app.get("/", (req, res) => {
+    res.json({ message: "Hello World" });
+});
 
-app.listen(PORT,()=>{
-    console.log(`Server is running on port ${PORT}`)
-})
+// catch route
 
+app.post("/hooks/catch/:userId/:zapId", (req, res) => {
+    const userId = req.params.userId;
+    const zapId = req.params.zapId;
+});
 
-
-
-
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
