@@ -26,6 +26,7 @@ model Zap {
   triggerId    String
   userId       Int
   trigger      Trigger?
+  actions      Action[]
   user         User @relation(fields: [userId], references: [id])
 }
 
@@ -38,10 +39,26 @@ model Trigger {
   zap  Zap                @relation(fields: [zapId], references: [id])
 }
 
+model Action {
+  id        String  @id @default(uuid())
+  zapId     String  
+  zap       Zap     @relation(fields: [zapId], references: [id])
+  actionId  String
+  metadata    Json  @default("{}")
+  type      AvailableAction @relation(fields: [actionId], references: [id])
+  sortingOrder Int    @default(0)
+}
+
+model AvailableAction {
+  id       String @id @default(uuid())
+  name     String
+  image    String
+  actions  Action[]
+}
+
 model AvailableTrigger {
   id       String @id @default(uuid())
   name     String 
   image    String
   triggers Trigger[]
 }
-
