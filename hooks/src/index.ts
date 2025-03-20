@@ -1,7 +1,10 @@
+import { PrismaClient } from "@prisma/client";
 import express from "express";
 const app = express();
 
 const PORT = process.env.PORT || 8000;
+
+const client=new PrismaClient();
 
 // test route
 app.get("/", (req, res) => {
@@ -10,9 +13,11 @@ app.get("/", (req, res) => {
 
 // catch route
 
-app.post("/hooks/catch/:userId/:zapId", (req, res) => {
+app.post("/hooks/catch/:userId/:zapId",async (req, res) => {
     const userId = req.params.userId;
     const zapId = req.params.zapId;
+
+
 });
 
 app.listen(PORT, () => {
