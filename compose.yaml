@@ -1,4 +1,12 @@
 services:
+  kafka:
+    image: apache/kafka:3.7.1
+    container_name: kafka
+    ports:
+      - "9092:9092"
+    networks:
+      - kafka-net
+
   db:
     image: postgres:latest
     container_name: postgres_zap
@@ -11,16 +19,13 @@ services:
       - postgres_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
-
     networks:
-      - postgres_network
-
-
+      - kafka-net
 
 volumes:
   postgres_data:
     driver: local
 
 networks:
-  postgres_network:
+  kafka-net:
     driver: bridge
