@@ -48,16 +48,20 @@ router.post("/signin",async (req, res) => {
   const safeBody=SignInSchema.safeParse(body);
   if(!safeBody.success){
     res.status(411).json({message:"Invalid body"})
+    return
   }
   const user=await prismaClient.user.findFirst({
     where:{
-      email:safeBody.data?.password,
+      email:safeBody.data?.username,
       password:safeBody.data?.password
     }
   })
 
   if(!user){
-    res.status(401).json({message:"Invalid credentials"})
+    res.status(401).json({
+      message:"Invalid credentials. Please try again"
+    })
+    return
   }
 
   const token=jwt.sign({
@@ -71,7 +75,7 @@ router.post("/signin",async (req, res) => {
   
 });
 
-router.get("/user", authMiddleware,async (req, res) => {
+router.get("/", authMiddleware,async (req, res) => {
   //@ts-ignore
   const id=req.id
 
