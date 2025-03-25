@@ -1,7 +1,9 @@
 import { Router } from "express";
 import { authMiddleware } from "../middleware/auth-middleware";
-import { SignUpSchema } from "../types/auth-types";
+import { SignInSchema, SignUpSchema } from "../types/auth-types";
 import { prismaClient } from "../db";
+import jwt from "jsonwebtoken";
+import { JWT_PASSWORD } from "../config";
 
 const router = Router();
 
@@ -41,14 +43,50 @@ router.post("/signup", async (req, res) => {
 });
 
 
-router.post("/signin", (req, res) => {
-  console.log("Signin request received");
-  res.json({ message: "Signin endpoint" });
+router.post("/signin",async (req, res) => {
+  const body=req.body;
+  const safeBody=SignInSchema.safeParse(body);
+  if(!safeBody.success){
+    res.status(411).json({message:"Invalid body"})
+  }
+  const user=await prismaClient.user.findFirst({
+    where:{
+      email:safeBody.data?.password,
+      password:safeBody.data?.password
+    }
+  })
+
+  if(!user){
+    res.status(401).json({message:"Invalid credentials"})
+  }
+
+  const token=jwt.sign({
+    id:user?.id,
+  },JWT_PASSWORD)
+
+  res.json({
+    message:"User Signed in successfully",
+    token
+  })
+  
 });
 
-router.get("/user", authMiddleware, (req, res) => {
-  console.log("User request received");
-  res.json({ message: "User endpoint" });
+router.get("/user", authMiddleware,async (req, res) => {
+  //@ts-ignore
+  const id=req.id
+
+  const user= await prismaClient.user.findUnique({
+    where:{
+      id
+    },
+    select:{
+      email:true,
+      name:true
+    }
+
+  })
+
+  res.json(user)
 });
 
 export const userRouter = router;
