@@ -19,7 +19,7 @@ router.post("/", authMiddleware, async (req, res) => {
   const zapId = await prismaClient.$transaction(async (tx) => {
     const zap = await prismaClient.zap.create({
       data: {
-        userId: parseInt(id),
+        userId: id,
         triggerId: "",
         actions: {
           create: safeBody.data.actions.map((action, index) => ({
@@ -60,16 +60,63 @@ router.post("/", authMiddleware, async (req, res) => {
 });
 
 router.get("/", authMiddleware,async (req, res) => {
+
+  //@ts-ignore
+  const id=req.id;
+
+  const zaps=await prismaClient.zap.findMany({
+    where:{
+      userId:id
+    },
+    include:{
+      actions:{
+        include:{
+          type:true
+        }
+      },
+      trigger:{
+        include:{
+          type:true
+        }
+      }
+    }
+  })
+
+  res.json({
+    message:"Zaps fetched successfully",
+    zaps
+  })
   
-
-
-
-
 });
 
-router.get("/:zapId", authMiddleware, (req, res) => {
-  console.log("Zap request received");
-  res.json({ message: "Zap request received" });
+router.get("/:zapId", authMiddleware,async (req, res) => {
+  //@ts-ignore
+  const id=req.id;
+  const zapId=req.params.zapId
+
+  const zap=await prismaClient.zap.findFirst({
+    where:{
+      userId:id,
+      id:zapId
+    },
+    include:{
+      actions:{
+        include:{
+          type:true
+        }
+      },
+      trigger:{
+        include:{
+          type:true
+        }
+      }
+    }
+  })
+
+  res.json({
+    message:"Zap fetched successfully",
+    zap
+  })
 });
 
 export const zapRouter = router;
