@@ -11,3 +11,10 @@ export const SignInSchema=z.object({
     password:z.string().min(6)
 })
 
+export const ResetPasswordSchema=z.object({
+    password:z.string().min(6),
+    newPassword:z.string().min(6)
+})
+
+
+
