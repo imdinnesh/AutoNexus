@@ -1,12 +1,12 @@
 "use client"
 import { FaArrowRight } from "react-icons/fa6";
-import { PrimaryButton } from "./PrimaryButton";
-import { SecondaryButton } from "./SecondaryButton";
+import { PrimaryButton } from "./Buttons/PrimaryButton";
+import { SecondaryButton } from "./Buttons/SecondaryButton";
 import { FcGoogle } from "react-icons/fc";
 import Image from "next/image";
 const Hero = () => {
     return (
-        <div className="flex justify-between h-[600px] items-center mx-20">
+        <div className="flex justify-between h-[600px] items-center mx-20 mt-[50px]">
             <div className="w-1/2 px-2 py-1" >
                 <button className="rounded-2xl bg-slate-200 px-3 py-2 flex space-x-2 items-center w-2/4">
                     <span className="border-2 rounded-full px-2 py-1 text-center text-sm">

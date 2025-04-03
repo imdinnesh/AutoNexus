@@ -1,9 +1,9 @@
 "use client"
 import { useRouter } from "next/navigation"
 import { LinkButton } from "./Buttons/LinkButton"
-import { PrimaryButton } from "./Buttons/PrimaryButton"
 import { MdOutlineAddChart } from "react-icons/md";
-const NavBar = () => {
+import { IoMdHelpCircleOutline } from "react-icons/io";
+const NavBar2 = () => {
 
     const router = useRouter()
     return (
@@ -16,27 +16,30 @@ const NavBar = () => {
 
             </div>
             <div className="flex space-x-2">
+            <LinkButton onClick={() => {}}>
+                    <div className="flex px-2 space-x-1">
+                        <IoMdHelpCircleOutline className="text-2xl" />
+                        <h2>Help</h2>
+                    </div>
+                </LinkButton>
                 <LinkButton onClick={() => {}}>
                     <div className="flex space-x-1 px-2">
-                        <MdOutlineAddChart className="text-2xl ml-5" />
+                        <MdOutlineAddChart className="text-2xl" />
                         <h2>Explore apps</h2>
                     </div>
                 </LinkButton>
-                <LinkButton onClick={() => { }}>
+                <LinkButton
+                varient="outline"
+                 onClick={() => { }}>
                     Contact Sales
                 </LinkButton>
                 <LinkButton onClick={() => {
                     router.push("/signin")
                 }}>Login
                 </LinkButton>
-                <PrimaryButton onClick={() => {
-                    router.push("/signup")
-                }}>
-                    Sign Up
-                </PrimaryButton>
             </div>
 
         </div>
     )
 }
-export default NavBar
+export default NavBar2
