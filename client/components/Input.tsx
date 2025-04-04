@@ -1,10 +1,12 @@
 import { CgAsterisk } from "react-icons/cg";
-export const Input=({label,type,onChange,size="small",varient="default"}:{
+export const Input=({label,type,onChange,size="small",varient="default",placeholder}:{
     label:string,
     type:"text" | "email",
     onChange:(e:any)=>void,
     size?:"small" | "large",
     varient?:"default" | "login"
+    placeholder?:string
+
 })=>{
 
     return (
@@ -17,6 +19,7 @@ export const Input=({label,type,onChange,size="small",varient="default"}:{
             <input 
             onChange={onChange}
             type={type} 
+            placeholder={placeholder}
             className={`border-2 border-gray-300 rounded-md p-2 ${size==="large"?"w-full":"w-52"} focus:outline-none focus:border-blue-500`} />
         </div>
 
