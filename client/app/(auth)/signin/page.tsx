@@ -16,7 +16,7 @@ export default function SignIn() {
                 <h1 className="text-3xl font-bold text-gray-900">
                     Automate across your teams
                 </h1>
-                <p>
+                <p className="py-4 text-md">
                     Zapier Enterprise empowers everyone in your business to securely automate their work in minutes, not months—no coding required.
                 </p>
                 <ExploreButton

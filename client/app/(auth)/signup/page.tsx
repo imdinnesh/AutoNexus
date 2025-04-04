@@ -4,7 +4,10 @@ import { Feature } from "@/components/Feature";
 import { Input } from "@/components/Input";
 import { Separator } from "@/components/Separator";
 import { GoogleButton } from "@/components/Buttons/GoogleButton";
+import { useRouter } from "next/navigation";
 export default function SignUp() {
+    const router = useRouter();
+
     return (
         <div>
             <div className="flex items-center h-[600px] mx-32 justify-around">
@@ -40,7 +43,10 @@ export default function SignUp() {
                     </button>
                     <div className="flex justify-center items-center space-x-2 py-4">
                         <h2>
-                            Already have an account? <span className="text-blue-500">Log in</span>
+                            Already have an account? <span
+                                onClick={() =>
+                                    router.push("/signin")}
+                                className="text-blue-500 cursor-pointer underline">Log in</span>
                         </h2>
                     </div>
                 </div>
