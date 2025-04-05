@@ -9,6 +9,8 @@ import { useForm } from "react-hook-form";
 import { signInSchema } from "@/types/authSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { useSignin } from "@/hooks/useSignin";
+import { toast } from "sonner";
 
 export default function SignIn() {
     type signinType = z.infer<typeof signInSchema>;
@@ -23,10 +25,18 @@ export default function SignIn() {
         mode: "onChange", // validate while typing
     });
 
+    const { mutate: signinUser, isPending } = useSignin();
 
-    const onSubmit = async (data: signinType) => {
-        await new Promise((resolve) => setTimeout(resolve, 2000));
-        console.log(data.email);
+    const onSubmit = (data: signinType) => {
+        signinUser(data, {
+            onSuccess: (res) => {
+                toast.success(res.message);
+                localStorage.setItem("token",res.token)
+            },
+            onError: (err) => {
+                toast.error(err.message);
+            },
+        });
     };
 
     return (
