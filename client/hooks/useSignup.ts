@@ -2,9 +2,13 @@ import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
 import type { signupType } from "@/types/authSchema";
 
-const signup = async (data: signupType)=>{
+type SignupResponse = {
+  message: string;
+};
+
+const signup = async (data: signupType): Promise<SignupResponse> => {
   try {
-    const response = await axios.post(
+    const response = await axios.post<SignupResponse>(
       "http://localhost:8000/api/v1/user/signup",
       {
         username: data.email,
@@ -19,15 +23,17 @@ const signup = async (data: signupType)=>{
     );
 
     return response.data;
-  } 
-  catch (err: any) {
+  } catch (err: any) {
+    // Safely extract error message
     const message =
-    err.response.data.message||"Something went wrong";
+      err?.response?.data?.message ??
+      "Something went wrong. Please try again later.";
+
     throw new Error(message);
   }
 };
 
 export const useSignup = () =>
-  useMutation({
+  useMutation<SignupResponse, Error, signupType>({
     mutationFn: signup,
   });

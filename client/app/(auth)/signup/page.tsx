@@ -30,7 +30,7 @@ export default function SignUp() {
 
   const onSubmit = (data: signupType) => {
     signupUser(data, {
-      onSuccess: (res:any) => {
+      onSuccess: (res) => {
         toast.success(res.message);
       },
       onError: (err) => {
